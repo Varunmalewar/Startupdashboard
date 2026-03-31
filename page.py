@@ -19,6 +19,7 @@ if csv_path is None:
     st.error(f'CSV file not found. Expected one of: {expected_files}')
     st.stop()
 
+print(f'[startup] Loaded CSV: {csv_path}')
 df = pd.read_csv(csv_path)
 # Convert all columns to string to avoid Arrow serialization issues
 # df = df.astype(str)
