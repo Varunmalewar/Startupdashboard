@@ -3,9 +3,23 @@ import pandas as pd
 import numpy as np
 import time
 import matplotlib.pyplot as plt
+from pathlib import Path
 st.set_page_config(layout="wide", page_title = 'Startup Dashboard')
 
-df = pd.read_csv(r'D:\Python\Pandas\Streamlit\Startupdashboard\start_up_cleaned (2).csv')
+base_dir = Path(__file__).resolve().parent
+csv_candidates = [
+    base_dir / 'start_up_cleaned (2).csv',
+    base_dir / 'start_up_cleaned.csv',
+    base_dir / 'startup_funding.csv',
+]
+
+csv_path = next((path for path in csv_candidates if path.exists()), None)
+if csv_path is None:
+    expected_files = ', '.join(path.name for path in csv_candidates)
+    st.error(f'CSV file not found. Expected one of: {expected_files}')
+    st.stop()
+
+df = pd.read_csv(csv_path)
 # Convert all columns to string to avoid Arrow serialization issues
 # df = df.astype(str)
 df['vertical'] = df['vertical'].astype(str)

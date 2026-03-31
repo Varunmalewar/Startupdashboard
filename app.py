@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import time
+from pathlib import Path
 
 st.title("Startup Dashboard")
 st.header("Welcome to the Startup Dashboard")
@@ -47,9 +48,18 @@ st.json({
 })
 
 
-st.image('2.jpg', width=300)  # Height auto-adjusts to maintain aspect ratio
+image_path = Path('2.jpg')
+video_path = Path('task.mp4')
 
-st.video('task.mp4')
+if image_path.exists():
+    st.image(str(image_path), width=300)  # Height auto-adjusts to maintain aspect ratio
+else:
+    st.warning('Image file 2.jpg not found. Add it to show the image.')
+
+if video_path.exists():
+    st.video(str(video_path))
+else:
+    st.warning('Video file task.mp4 not found. Add it to show the video.')
 # st.audio('audio_file.mp3')  # Uncomment when you have an audio file
 
 
@@ -61,10 +71,16 @@ st.sidebar.title('Side ka title')
 col1 , col2 , col3= st.columns(3) # side by side la sakte hai 
 
 with col1:
-    st.image('2.jpg', width=300)  # Height auto-adjusts to maintain aspect ratio
+    if image_path.exists():
+        st.image(str(image_path), width=300)  # Height auto-adjusts to maintain aspect ratio
+    else:
+        st.info('2.jpg missing')
 
 with col2:
-    st.video('task.mp4')
+    if video_path.exists():
+        st.video(str(video_path))
+    else:
+        st.info('task.mp4 missing')
 
 with col3:
     st.subheader('This is the third column')
